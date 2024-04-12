@@ -1,15 +1,12 @@
---[[ FX Information ]]--
 fx_version   'cerulean'
 use_experimental_fxv2_oal 'yes'
 lua54        'yes'
 game         'gta5'
 
---[[ Resource Information ]]--
-name         'ds_blipcreator'
-version      '0.1.6'
-license      'GPL-3.0-or-later'
-author       'dolaji-op'
-repository   'https://github.com/dolaji-op/ds_blipcreator'
+name         'mri_Qblips PTBR'
+version      '1.0.0'
+author       'mur4i'
+discord		 '.mur4i'
 
 client_scripts {
 	'client/main.lua',
@@ -32,3 +29,5 @@ files {
 dependencies {
 	'oxmysql',
 }
+
+credits   'https://github.com/dolaji-op/ds_blipcreator'

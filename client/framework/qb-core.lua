@@ -1,8 +1,8 @@
-local resourceName = 'qb-core'
+-- local resourceName = 'qb-core'
 
-if not GetResourceState(resourceName):find('start') then return end
+-- if not GetResourceState(resourceName):find('start') then return end
 
-local QB = exports[resourceName]:GetCoreObject()
+local QB = exports["qb-core"]:GetCoreObject()
 
 function GetPlayer()
 	return QB.Functions.GetPlayerData()
@@ -10,11 +10,11 @@ end
 
 
 RegisterNetEvent('QBCore:Client:OnJobUpdate', function()
-	TriggerEvent('ds_blipcreator:setBlips',blips)
+	TriggerEvent('mri_Qblips:setBlips',blips)
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-	TriggerServerEvent('ds_blipcreator:getBlips')
+	TriggerServerEvent('mri_Qblips:getBlips')
 
 end)
 

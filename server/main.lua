@@ -1,5 +1,5 @@
 if not LoadResourceFile(GetCurrentResourceName(), 'web/build/index.html') then
-	print('Unable to load UI. Build ds_blipcreator or download the latest release.\n	^3https://github.com/overextended/ds_blipcreator/releases/latest/download/ds_blipcreator.zip^0')
+	print('Unable to load UI. Build mri_Qblips or download the latest release.\n	^3https://github.com/overextended/mri_Qblips/releases/latest/download/mri_Qblips.zip^0')
 end
 
 
@@ -39,7 +39,7 @@ local function createBlip(id, blip, name)
 	blip.ftimer = tonumber(blip.ftimer)
 	blip.coords = vector3(blip.coords.x, blip.coords.y, blip.coords.z)
 
-	MySQL.update('UPDATE ds_blipcreator SET data = ? WHERE id = ?', { encodeData(blip), id })
+	MySQL.update('UPDATE mri_Qblips SET data = ? WHERE id = ?', { encodeData(blip), id })
 
 	blips[id] = blip
 	return blip
@@ -48,11 +48,11 @@ end
 local isLoaded = false
 
 MySQL.ready(function()
-	local success, result = pcall(MySQL.query.await, 'SELECT id, name, data FROM ds_blipcreator') --[[@as any]]
+	local success, result = pcall(MySQL.query.await, 'SELECT id, name, data FROM mri_Qblips') --[[@as any]]
 
 	if not success then
 		-- because some people can't run sql files
-		success, result = pcall(MySQL.query, [[CREATE TABLE `ds_blipcreator` (
+		success, result = pcall(MySQL.query, [[CREATE TABLE `mri_Qblips` (
 			`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 			`name` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_unicode_ci',
 			`data` LONGTEXT NOT NULL COLLATE 'utf8mb4_unicode_ci',
@@ -63,7 +63,7 @@ MySQL.ready(function()
 			return error(result)
 		end
 
-		print("Created table 'ds_blipcreator' in MySQL database.")
+		print("Created table 'mri_Qblips' in MySQL database.")
 	elseif result then
 		for i = 1, #result do
 			local blip = result[i]
@@ -74,14 +74,14 @@ MySQL.ready(function()
 	isLoaded = true
 end)
 
-RegisterNetEvent('ds_blipcreator:getBlips', function()
+RegisterNetEvent('mri_Qblips:getBlips', function()
 	local source = source
 	while not isLoaded do Wait(100) end
 
-	TriggerClientEvent('ds_blipcreator:setBlips', source, blips)
+	TriggerClientEvent('mri_Qblips:setBlips', source, blips)
 end)
 
-RegisterNetEvent('ds_blipcreator:editBlip', function(id, data)
+RegisterNetEvent('mri_Qblips:editBlip', function(id, data)
 	if IsPlayerAceAllowed(source, 'command.blipcreator') then
 		if data then
 			if not data.coords then
@@ -96,24 +96,24 @@ RegisterNetEvent('ds_blipcreator:editBlip', function(id, data)
 
 		if id then
 			if data then
-				MySQL.update('UPDATE ds_blipcreator SET name = ?, data = ? WHERE id = ?', { data.name, encodeData(data), id })
+				MySQL.update('UPDATE mri_Qblips SET name = ?, data = ? WHERE id = ?', { data.name, encodeData(data), id })
 			else
-				MySQL.update('DELETE FROM ds_blipcreator WHERE id = ?', { id })
+				MySQL.update('DELETE FROM mri_Qblips WHERE id = ?', { id })
 			end
 
 			blips[id] = data
-			TriggerClientEvent('ds_blipcreator:editBlip', -1, id, data)
+			TriggerClientEvent('mri_Qblips:editBlip', -1, id, data)
 		else
-			local insertId = MySQL.insert.await('INSERT INTO ds_blipcreator (name, data) VALUES (?, ?)', { data.name, encodeData(data) })
+			local insertId = MySQL.insert.await('INSERT INTO mri_Qblips (name, data) VALUES (?, ?)', { data.name, encodeData(data) })
 			local blip = createBlip(insertId, data, data.name)
 
-			TriggerClientEvent('ds_blipcreator:setBlip', -1, blip.id, false, blip)
+			TriggerClientEvent('mri_Qblips:setBlip', -1, blip.id, false, blip)
 		end
 	end
 end)
 
-RegisterCommand("blipcreator", function(source)
+RegisterCommand("blips", function(source)
     if IsPlayerAceAllowed(source, 'command.blipcreator') then
-		TriggerClientEvent('ds_blipcreator:triggeredCommand', source)
+		TriggerClientEvent('mri_Qblips:triggeredCommand', source)
 	end
 end, true)

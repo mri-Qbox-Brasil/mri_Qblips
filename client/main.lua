@@ -1,8 +1,8 @@
 if not LoadResourceFile(GetCurrentResourceName(), 'web/build/index.html') then
-	print('Unable to load UI. Build ds_blipcreator or download the latest release.\n	^3https://github.com/overextended/ds_blipcreator/releases/latest/download/ds_blipcreator.zip^0')
+	print('Unable to load UI. Build mri_Qblips or download the latest release.\n	^3https://github.com/mur4i/mri_Qblips/releases/latest/download/mri_Qblips.zip^0')
 end
 
--- TriggerServerEvent('ds_blipcreator:getBlips')
+TriggerServerEvent('mri_Qblips:getBlips')
 
 local function createblip(blip)
 	blip.zone = GetLabelText(GetNameOfZone(blip.coords.x, blip.coords.y, blip.coords.z))
@@ -47,7 +47,7 @@ end
 
 
 
-RegisterNetEvent('ds_blipcreator:setBlips', function(data)
+RegisterNetEvent('mri_Qblips:setBlips', function(data)
 	blips = data
 
 	for _, blip in pairs(data) do
@@ -56,7 +56,7 @@ RegisterNetEvent('ds_blipcreator:setBlips', function(data)
 
 end)
 
-RegisterNetEvent('ds_blipcreator:setBlip', function(id, source, data)
+RegisterNetEvent('mri_Qblips:setBlip', function(id, source, data)
 	if not blips then return end
 	if data then
 		blips[id] = data
@@ -73,12 +73,14 @@ end)
 
 
 
-RegisterNetEvent('ds_blipcreator:editBlip', function(id, data)
+RegisterNetEvent('mri_Qblips:editBlip', function(id, data)
 	if source == '' then return end
 	local blip = blips[id]
 
 	if data then
 		data.zone = blip.zone or GetLabelText(GetNameOfZone(blip.coords.x, blip.coords.y, blip.coords.z))
+	else
+		RemoveBlip(blips[id].blipObj)
 	end
 
 	blips[id] = data

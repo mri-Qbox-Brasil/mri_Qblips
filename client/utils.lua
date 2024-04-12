@@ -7,12 +7,12 @@ RegisterNUICallback('createBlip', function(data, cb)
 	end
 
 
-	TriggerServerEvent('ds_blipcreator:editBlip', data.id or false, data)
+	TriggerServerEvent('mri_Qblips:editBlip', data.id or false, data)
 end)
 
 RegisterNUICallback('deleteblip', function(id, cb)
 	cb(1)
-	TriggerServerEvent('ds_blipcreator:editBlip', id)
+	TriggerServerEvent('mri_Qblips:editBlip', id)
 end)
 
 RegisterNUICallback('teleportToBlip', function(id, cb)
@@ -45,6 +45,6 @@ local function openUi(id)
 	}))
 end
 
-RegisterNetEvent('ds_blipcreator:triggeredCommand', function()
+RegisterNetEvent('mri_Qblips:triggeredCommand', function()
 	openUi(nil)
 end)
