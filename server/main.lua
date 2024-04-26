@@ -112,7 +112,7 @@ RegisterNetEvent('mri_Qblips:editBlip', function(id, data)
 	end
 end)
 
-RegisterCommand("blips", function(source)
+RegisterCommand("blip", function(source)
     if IsPlayerAceAllowed(source, 'command.blipcreator') then
 		TriggerClientEvent('mri_Qblips:triggeredCommand', source)
 	end
