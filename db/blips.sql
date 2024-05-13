@@ -15,7 +15,7 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 -- Copiando estrutura para tabela mri-qboxbrasilproject_131103.mri_qblips
-CREATE TABLE IF NOT EXISTS `mri_qblips` (
+CREATE TABLE IF NOT EXISTS `mri_Qblips` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `data` longtext NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `mri_qblips` (
 ) ENGINE=InnoDB AUTO_INCREMENT=511 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Copiando dados para a tabela mri-qboxbrasilproject_131103.mri_qblips: ~43 rows (aproximadamente)
-INSERT INTO `mri_qblips` (`id`, `name`, `data`) VALUES
+INSERT INTO `mri_Qblips` (`id`, `name`, `data`) VALUES
 	(1, 'YouTool', '{"SpriteImg":"https://docs.fivem.net/blips/radar_pickup_repair.png","outline":false,"sRange":true,"scImg":"","items":0,"sColor":0,"coords":{"x":343.0681457519531,"y":-1298.2021484375,"z":32.4981689453125},"bflash":false,"tickb":false,"alpha":255,"Sprite":544,"colors":0,"ftimer":50000,"hideb":false,"scale":6}'),
 	(2, 'YouTool', '{"SpriteImg":"https://docs.fivem.net/blips/radar_pickup_repair.png","outline":false,"sRange":true,"scImg":"","items":0,"sColor":0,"coords":{"x":2747.393310546875,"y":3473.208740234375,"z":55.6666259765625},"bflash":false,"tickb":false,"alpha":255,"Sprite":544,"colors":0,"ftimer":50000,"hideb":false,"scale":6}'),
 	(11, 'Loja de Pesca', '{"SpriteImg":"https://docs.fivem.net/blips/radar_dock.png","outline":false,"sRange":true,"scImg":"rgb(254, 254, 254)","items":0,"scale":7,"coords":{"x":-1492.945068359375,"y":-939.7318725585938,"z":10.205810546875},"bflash":false,"tickb":false,"alpha":255,"Sprite":356,"colors":0,"ftimer":50000,"hideb":false}'),
