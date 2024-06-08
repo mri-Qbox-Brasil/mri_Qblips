@@ -10,8 +10,10 @@ local function createblip(blip)
 
 		if blips[blip.id].blipObj ~= nil then
 			RemoveBlip(blips[blip.id].blipObj)
+			Wait(100)
 		end
 
+		if blips[blip.id].blipObj then return end
 
 		blips[blip.id].blipObj = AddBlipForCoord(blip.coords.x, blip.coords.y, blip.coords.z)
 		local newBlip = blips[blip.id].blipObj
@@ -53,7 +55,6 @@ RegisterNetEvent('mri_Qblips:setBlips', function(data)
 	for _, blip in pairs(data) do
 		createblip(blip)
 	end
-
 end)
 
 RegisterNetEvent('mri_Qblips:setBlip', function(id, source, data)
