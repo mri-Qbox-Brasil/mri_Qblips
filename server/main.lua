@@ -33,11 +33,13 @@ local function encodeData(blip)
 	})
 end
 
-local function updateBlips(id, blip, name)
+local function createBlip(id, blip, name)
 	blip.id = id
 	blip.name = name
 	blip.ftimer = tonumber(blip.ftimer)
 	blip.coords = vector3(blip.coords.x, blip.coords.y, blip.coords.z)
+
+	MySQL.update('UPDATE mri_Qblips SET data = ? WHERE id = ?', { encodeData(blip), id })
 
 	blips[id] = blip
 	return blip
@@ -65,7 +67,7 @@ MySQL.ready(function()
 	elseif result then
 		for i = 1, #result do
 			local blip = result[i]
-			updateBlips(blip.id, json.decode(blip.data), blip.name)
+			createBlip(blip.id, json.decode(blip.data), blip.name)
 		end
 	end
 
@@ -103,9 +105,9 @@ RegisterNetEvent('mri_Qblips:editBlip', function(id, data)
 			TriggerClientEvent('mri_Qblips:editBlip', -1, id, data)
 		else
 			local insertId = MySQL.insert.await('INSERT INTO mri_Qblips (name, data) VALUES (?, ?)', { data.name, encodeData(data) })
-			local blip = updateBlips(insertId, data, data.name)
+			local blip = createBlip(insertId, data, data.name)
 
-			TriggerClientEvent('mri_Qblips:createBlip', -1, blip.id, false, blip)
+			TriggerClientEvent('mri_Qblips:setBlip', -1, blip.id, false, blip)
 		end
 	end
 end)
