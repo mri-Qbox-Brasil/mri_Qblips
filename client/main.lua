@@ -1,17 +1,12 @@
 if not LoadResourceFile(GetCurrentResourceName(), 'web/build/index.html') then
 	print('Unable to load UI. Build mri_Qblips or download the latest release.\n	^3https://github.com/mur4i/mri_Qblips/releases/latest/download/mri_Qblips.zip^0')
 end
+local blips = {}
 
 TriggerServerEvent('mri_Qblips:getBlips')
-
 local function createblip(blip)
 	blip.zone = GetLabelText(GetNameOfZone(blip.coords.x, blip.coords.y, blip.coords.z))
 	if not blip.hideUi  and ( blip.groups == nil or IsPlayerInGroup(blip.groups)) then
-
-		if blips[blip.id].blipObj ~= nil then
-			RemoveBlip(blips[blip.id].blipObj)
-			Wait(100)
-		end
 
 		if blips[blip.id].blipObj then return end
 
@@ -50,9 +45,24 @@ end
 
 
 RegisterNetEvent('mri_Qblips:setBlips', function(data)
-	blips = data
+	if blips then
+		for _, blip in pairs(blips) do
+			if blips[blip.id].blipObj ~= nil then
+				RemoveBlip(blips[blip.id].blipObj)
+				blips[blip.id].blipObj = nil
+				Wait(100)
+			end
+		end
+	end
 
+	blips = data
 	for _, blip in pairs(data) do
+		if blips[blip.id].blipObj ~= nil then
+			RemoveBlip(blips[blip.id].blipObj)
+			blips[blip.id].blipObj = nil
+			Wait(100)
+		end
+
 		createblip(blip)
 	end
 end)
