@@ -47,24 +47,21 @@ local function createblip(blip)
 	end
 end
 
-
-
 RegisterNetEvent('mri_Qblips:setBlips', function(data)
-	if blips then
-		for _, blip in pairs(blips) do
-			if blips[blip.id].blipObj ~= nil then
-				RemoveBlip(blips[blip.id].blipObj)
-				blips[blip.id].blipObj = nil
-				Wait(100)
-			end
-		end
-	end
-	
-	blips = data
+    if blips then
+        for id, blip in pairs(blips) do
+            if blip.blipObj then
+                RemoveBlip(blip.blipObj)
+                blips[id].blipObj = nil
+            end
+        end
+    end
 
-	for _, blip in pairs(data) do
-		createblip(blip)
-	end
+    blips = data
+
+    for _, blip in pairs(data) do
+        createblip(blip)
+    end
 end)
 
 RegisterNetEvent('mri_Qblips:setBlip', function(id, source, data)
