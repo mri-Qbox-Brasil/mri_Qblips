@@ -64,19 +64,19 @@ RegisterNetEvent('mri_Qblips:setBlips', function(data)
     end
 end)
 
-RegisterNetEvent('mri_Qblips:setBlip', function(id, source, data)
-	if not blips then return end
-	if data then
-		blips[id] = data
-		createblip(data)
-		if NuiHasLoaded then
+RegisterNetEvent('mri_Qblips:setBlip', function(id, _, blipData)
+    if not blips then return end
+    if blipData then
+        blips[id] = blipData
+        createblip(blipData)
 
-			SendNuiMessage(json.encode({
-				action = 'updateBlipData',
-				data = data
-			}))
-		end
-	end
+        if NuiHasLoaded then
+            SendNuiMessage(json.encode({
+                action = 'updateBlipData',
+                data = blipData
+            }))
+        end
+    end
 end)
 
 
