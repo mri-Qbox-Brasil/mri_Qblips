@@ -1,74 +1,346 @@
-# ds_blipcreator
+# 📍 mri_Qblips
 
-Blip management resource, with compatibility for qb-core, and es_extended.
+> **Sistema avançado de gerenciamento de blips com React NUI para servidores FiveM**  
+> Crie, gerencie e organize blips no mapa com facilidade.
 
-_The UI needs to be built - use the [latest release](https://github.com/dolaji-op/ds_blipcreator/releases/latest/download/ds_blipcreator.zip) if you want to drag-n-drop._
+[![FiveM](https://img.shields.io/badge/FiveM-Blips-orange)](https://fivem.net/)
+[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+[![ oxmysql](https://img.shields.io/badge/Database-oxmysql-blue)](https://github.com/overextended/oxmysql)
 
-## Dependencies
+---
 
-### [oxmysql](https://github.com/overextended/oxmysql)
+## 📋 Índice
 
-Blips are stored in a database for ease-of-use and to allow data to be easily cleared or shared.
+- [Funcionalidades](#-funcionalidades)
+- [Dependências](#-dependências)
+- [Instalação](#-instalação)
+- [Configuração](#-configuração)
+- [Comandos](#-comandos)
+- [Eventos](#-eventos)
+- [Exports](#-exports)
+- [Estrutura de Arquivos](#-estrutura-de-arquivos)
+- [Banco de Dados](#-banco-de-dados)
+- [Créditos](#-créditos)
 
-mysql-async is no longer supported.
-  - does not support error-catching (pcall)
-  - people use older versions which do not support parameters as arrays
-  - it isn't maintained and has issues that will never be resolved
+---
 
-## Usage
+## ✨ Funcionalidades
 
-Use the `/blipcreator` command to open the UI and enter the settings for your new blip.
+### 🗺️ Gerenciamento de Blips
+| Funcionalidade | Descrição |
+|---------|-------------|
+| **Criar Blips** | Adiciona blips personalizados ao mapa |
+| **Seleção de Sprite** | Escolhe entre todos os sprites de blip do GTA V |
+| **Personalização de Cor** | Suporte completo à paleta de cores |
+| **Controle de Escala** | Ajusta tamanho do blip (0.0 - 2.0) |
+| **Controle de Opacidade** | Define transparência (0 - 255) |
+| **Blips Piscar** | Faz blips piscarem para atenção |
+| **Curto Alcance** | Alterna exibição de curto alcance |
+| **Opção Oculto** | Oculta/exibe blips dinamicamente |
 
-## Contact
+### 👥 Controle de Acesso
+- **Acesso Baseado em Emprego** - Restringe blips a empregos específicos
+- **Acesso Baseado em Gangue** - Restringe blips a gangues específicas
+- **Permissões de Grupo** - Configura quem pode ver/editar blips
 
-If you have any questions or feedback, please join our [Discord server](https://discord.gg/dolaji-s-scripts-952174929518936114) and let us know!
+### 🎨 Interface do Usuário
+- **React NUI** - Interface moderna e responsiva
+- **Pré-visualização em Tempo Real** - Vê alterações instantaneamente
+- **Busca e Filtro** - Encontra blips rapidamente
+- **Operações em Massa** - Gerencia múltiplos blips
 
-[![Discord Server](https://img.shields.io/discord/952174929518936114?color=7289DA&label=Discord&logo=discord&logoColor=ffffff)](https://discord.gg/dolaji-s-scripts-952174929518936114)
+---
 
-## Blip Settings
+## 🔗 Dependências
 
-### General
+| Dependência | Obrigatório | Notas |
+|------------|----------|-------|
+| **oxmysql** | ✅ Sim | Operações de banco de dados |
+| **ox_lib** | ⚠️ Recomendado | Componentes UI |
 
-- Blip name
-  - Used to easily identify the blip.
-- Flash Timer
-  - Time in mili seconds after which blip will be flashed.
-- Blip Scale
-  - Size for the blip.
-- Blip Opacity
-  - Blip Opacity 0 to 255.
-- Tick On Blip
-  - This option will add tick on target blip.
-- Outline
-  - This option will add Outline on target blip.
-- Hide on Minimap
-  - Enable or disable blip in the minimap.
-- Blip Flashes
-  - Enable/Disable blip flash with timer.
-- Short Range Blip
-  - Enable if the target blip visible in short range only.
-- Hide Blip
-  - Hide created blips from map.
+---
 
-### Sprite
+## 📥 Instalação
 
-- Sprite ID
-  - Select blip icon from the list, We have all Fivem blips with images of blip .
+1. **Download e Extração**
+   ```bash
+   # Coloque na pasta de resources
+   [mri]/mri_Qblips/
+   ```
 
-### Colors
+2. **Instalar Dependências**
+   - Certifique-se de que `oxmysql` está instalado e iniciado
+   - Certifique-se de que o banco de dados está configurado
 
-- Color ID
-  - Select blip color from the list, We have all Fivem blips colors in the list.
+3. **Configuração do Banco de Dados**
+   ```bash
+   # Importe o arquivo SQL
+   # Execute: mri_Qblips/db/blips.sql
+   ```
 
-### Groups
+4. **Configurar Permissões ACE**
+   ```bash
+   # No server.cfg
+   add_ace group.admin command.blipcreator allow
+   add_ace group.moderator command.blipcreator allow
+   ```
 
-- Group
-  - Framework dependent, referring to jobs, gangs, etc.
-- Grade
-  - The minimum grade to allow access for the group (0 to allow all).
+5. **Iniciar Resource**
+   ```lua
+   -- No server.cfg
+   ensure mri_Qblips
+   ```
 
-## Credits
+---
 
-- [oxmysql](https://github.com/overextended/oxmysql) by Overextended
-- [ox_doorlock](https://github.com/overextended/ox_doorlock) by Overextended
-- [ds_blipcreator](https://github.com/dolaji-op/ds_blipcreator) by Dolaji
+## ⚙️ Configuração
+
+```lua
+-- config.lua (ou dentro do fxmanifest)
+Config = {}
+
+-- Permissão ACE para comando criador de blip
+Config.ACE_Permission = 'command.blipcreator'
+
+-- Configurações padrão de blip
+Config.DefaultBlip = {
+    sprite = 1,
+    color = 0,
+    scale = 0.8,
+    opacity = 255
+}
+
+-- Grupos Permitidos (podem ser configurados via ACE)
+Config.AllowedGroups = {
+    'admin',
+    'moderator'
+}
+```
+
+---
+
+## 🎮 Comandos
+
+| Comando | Permissão | Descrição |
+|---------|------------|-------------|
+| `/blip` | ACE: command.blipcreator | Abre menu de gerenciamento de blips |
+
+### Configuração de Permissão ACE
+```bash
+# Concede permissão a admins
+add_ace group.admin command.blipcreator allow
+
+# Concede permissão a moderadores
+add_ace group.moderator command.blipcreator allow
+
+# Concede a usuário específico
+add_ace identifier.steam:110000112345678 command.blipcreator allow
+```
+
+---
+
+## 📡 Eventos
+
+### Eventos do Cliente
+
+| Evento | Parâmetros | Descrição |
+|-------|------------|-------------|
+| `mri_Qblips:client:openMenu` | `none` | Abre UI de gerenciamento de blips |
+| `mri_Qblips:client:createBlip` | `blipData` | Cria um novo blip |
+| `mri_Qblips:client:updateBlip` | `id, blipData` | Atualiza blip existente |
+| `mri_Qblips:client:deleteBlip` | `id` | Deleta um blip |
+| `mri_Qblips:client:refreshBlips` | `none` | Atualiza todos os blips |
+
+### Eventos do Servidor
+
+| Evento | Parâmetros | Descrição |
+|-------|------------|-------------|
+| `mri_Qblips:server:saveBlip` | `blipData` | Salva blip no banco de dados |
+| `mri_Qblips:server:updateBlip` | `id, blipData` | Atualiza blip no banco de dados |
+| `mri_Qblips:server:deleteBlip` | `id` | Deleta blip do banco de dados |
+| `mri_Qblips:server:requestBlips` | `none` | Solicita todos os blips do DB |
+
+---
+
+## 📤 Exports
+
+### Exports do Cliente
+
+```lua
+-- Cria um novo blip
+exports['mri_Qblips']:createBlip({
+    name = "Hospital",
+    coords = vector3(295.65, -584.25, 43.25),
+    sprite = 61,
+    color = 2,
+    scale = 0.8,
+    opacity = 255,
+    flash = false,
+    shortRange = true,
+    hidden = false,
+    job = nil,
+    gang = nil
+})
+
+-- Obtém todos os blips
+local blips = exports['mri_Qblips']:getBlips()
+
+-- Deleta um blip por ID
+exports['mri_Qblips']:deleteBlip(blipId)
+```
+
+### Exports do Servidor
+
+```lua
+-- Salva blip no banco de dados
+exports['mri_Qblips']:saveBlip(source, blipData)
+
+-- Obtém todos os blips do banco de dados
+local blips = exports['mri_Qblips']:getAllBlips()
+
+-- Deleta blip
+exports['mri_Qblips']:deleteBlip(blipId)
+```
+
+---
+
+## 📁 Estrutura de Arquivos
+
+```
+mri_Qblips/
+├── client/
+│   ├── main.lua              # Lógica principal do cliente
+│   ├── blips.lua             # Renderização de blips
+│   └── menu.lua              # Manipuladores de menu do cliente
+├── server/
+│   ├── main.lua              # Lógica principal do servidor
+│   └── database.lua          # Operações de banco de dados
+├── config/
+│   └── config.lua            # Arquivo de configuração
+├── db/
+│   └── blips.sql             # Esquema do banco de dados
+├── locales/
+│   ├── en.json               # Inglês
+│   └── pt.json               # Português
+├── web/
+│   ├── build/                # App React compilado
+│   ├── src/                  # Código fonte React
+│   │   ├── components/       # Componentes UI
+│   │   ├── context/          # Contexto React
+│   │   └── App.jsx           # App principal
+│   ├── package.json
+│   └── vite.config.js
+├── fxmanifest.lua
+└── README.md
+```
+
+---
+
+## 🗄️ Banco de Dados
+
+### Tabela Blips
+```sql
+-- mri_Qblips/db/blips.sql
+CREATE TABLE IF NOT EXISTS `mri_blips` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `coords` VARCHAR(100) NOT NULL,
+  `sprite` INT NOT NULL DEFAULT 1,
+  `color` INT NOT NULL DEFAULT 0,
+  `scale` FLOAT NOT NULL DEFAULT 0.8,
+  `opacity` INT NOT NULL DEFAULT 255,
+  `flash` TINYINT(1) NOT NULL DEFAULT 0,
+  `shortRange` TINYINT(1) NOT NULL DEFAULT 1,
+  `hidden` TINYINT(1) NOT NULL DEFAULT 0,
+  `job` VARCHAR(50) DEFAULT NULL,
+  `gang` VARCHAR(50) DEFAULT NULL,
+  `createdBy` VARCHAR(50) DEFAULT NULL,
+  `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+```
+
+### Estrutura de Dados do Blip
+```json
+{
+  "id": 1,
+  "name": "Hospital",
+  "coords": "295.65,-584.25,43.25",
+  "sprite": 61,
+  "color": 2,
+  "scale": 0.8,
+  "opacity": 255,
+  "flash": false,
+  "shortRange": true,
+  "hidden": false,
+  "job": null,
+  "gang": null,
+  "createdBy": "player_identifier",
+  "createdAt": "2026-05-04 12:00:00"
+}
+```
+
+---
+
+## 🎨 Referência de Sprites de Blip
+
+| ID do Sprite | Nome | Descrição |
+|-----------|------|-------------|
+| 1 | Padrão | Círculo branco |
+| 61 | Hospital | Símbolo médico |
+| 94 | Polícia | Distintivo de polícia |
+| 106 | Garagem | Ícone de carro |
+| 121 | Bar | Ícone de bebida |
+| 137 | Car Wash | Gotas de água |
+| 162 | Tatuagem | Máquina de tatuagem |
+| 207 | Ammunation | Ícone de arma |
+| 356 | Academia | Haltere |
+| 365 | Joalheria | Diamante |
+| 374 | Loja de Roupas | Camiseta |
+| 402 | Mecânico | Chave inglesa |
+| 415 | Barbearia | Tesoura |
+| 426 | Cinema | Carretel de filme |
+| 475 | Capacetes | Capacete de moto |
+
+*E muitos mais disponíveis in-game...*
+
+---
+
+## 🎨 NUI (React)
+
+A UI é construída com React e Vite:
+
+```bash
+# Navegue até o diretório web
+cd mri_Qblips/web
+
+# Instale as dependências
+npm install
+
+# Build para produção
+npm run build
+
+# Modo de desenvolvimento
+npm run dev
+```
+
+---
+
+## 🏆 Créditos
+
+- **mri_Qblips** - Sistema de gerenciamento de blips
+- **oxmysql** - Integração com banco de dados
+- **React** - Framework moderno de UI
+- **FiveM Community** - Inspiração e suporte
+
+---
+
+## 📝 Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+---
+
+<div align="center">
+  <p>Feito com ❤️ para a comunidade FiveM</p>
+</div>
